@@ -1,6 +1,10 @@
 // import { useIsFetching } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useCreateTodo, useUpdateTodo } from "../services/mutation";
+import {
+  useCreateTodo,
+  useDeleteTodo,
+  useUpdateTodo,
+} from "../services/mutation";
 import { useTodos, useTodosIds } from "../services/queries";
 import { TodoType } from "../types/todo";
 
@@ -20,6 +24,7 @@ const Todo = () => {
 
   const createTodoMutation = useCreateTodo();
   const updateTodoMutation = useUpdateTodo();
+  const deleteTodoMutation = useDeleteTodo();
 
   const { register, handleSubmit } = useForm<TodoType>();
 
@@ -31,6 +36,11 @@ const Todo = () => {
     if (data) {
       updateTodoMutation.mutate({ ...data, checked: true });
     }
+  };
+
+  const deleteTodoHandler = async (id: number) => {
+    await deleteTodoMutation.mutateAsync(id);
+    console.log("Successfully deleted");
   };
 
   return (
@@ -78,6 +88,11 @@ const Todo = () => {
               <button onClick={() => updateTodoHandler(data)}>
                 {data?.checked ? "Done" : "Mark as done"}
               </button>
+              {data && data?.id && (
+                <button onClick={() => deleteTodoHandler(data.id!)}>
+                  Delete
+                </button>
+              )}
             </div>
           </li>
         ))}
