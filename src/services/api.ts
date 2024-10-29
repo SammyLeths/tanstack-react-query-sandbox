@@ -1,6 +1,7 @@
 import axios from "axios";
 import { TodoType } from "../types/todo";
-import { ProjectType } from "../types/projects";
+import { ProjectType } from "../types/project";
+import { ProductType } from "../types/product";
 
 const BASE_URL = "http://localhost:3000";
 const axiosInstance = axios.create({ baseURL: BASE_URL });
@@ -29,6 +30,18 @@ export const deleteTodo = async (id: number) => {
 
 export const getProjects = async (page = 1) => {
   return (
-    await axiosInstance.get<ProjectType[]>(`projects?_page=${page}&limit=3`)
+    await axiosInstance.get<ProjectType[]>(`projects?_page=${page}&_limit=3`)
   ).data;
+};
+
+export const getProducts = async ({ pageParam }: { pageParam: number }) => {
+  return (
+    await axiosInstance.get<ProductType[]>(
+      `products?_page=${pageParam + 1}&_limit=3`
+    )
+  ).data;
+};
+
+export const getProduct = async (id: number) => {
+  return (await axiosInstance.get<ProductType>(`products/${id}`)).data;
 };

@@ -22,13 +22,15 @@
 
 // export default App;
 
-import Projects from "./components/Projects";
+import Products from "./components/Products";
+//import Projects from "./components/Projects";
 //import Todo from "./components/Todo";
 
 const App = () => {
   return (
     <>
-      <Projects />
+      {/* <Projects /> */}
+      <Products />
     </>
   );
 
